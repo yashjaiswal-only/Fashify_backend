@@ -33,6 +33,7 @@ app.get('/api/config/paypal',(req,res)=>{
 app.get('/',(req,res)=>{
     res.send('hii this is api');
 }) 
+
 //this builds express server in port 5000 
 app.listen(process.env.PORT || 5000,()=>{
     console.log("backend server is running");
