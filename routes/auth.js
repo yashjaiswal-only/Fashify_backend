@@ -3,6 +3,20 @@ const User =require("../models/User");
 const CryptoJS=require("crypto-js");
 const jwt=require("jsonwebtoken");
 
+//user nave available
+router.post("/find",async (req,res)=>{
+    
+    try{
+        const user=await User.findOne({username:req.body.username});//get user with given username
+        return res.status(200).json(user);  
+
+    } catch(err){
+        res.status(500).json("error occur"+err); 
+        return ;
+    }
+
+});
+
 //REGISTER
 router.post("/register",async (req,res)=>{
     const newUser = new User({
@@ -15,12 +29,12 @@ router.post("/register",async (req,res)=>{
         password:CryptoJS.AES.encrypt(req.body.password,process.env.PASS_SEC).toString(),   //to encrypt the password using aes
     });
     //created a user obj of given schema
+    // console.log('in the register');
     try{
-        const savedUser=await newUser.save();   //saved it
-        res.status(201).json(savedUser);
-        return ;
-        // console.log(savedUser)
-        // console.log("success");
+        const user=await newUser.save();   //saved it        
+        //we can't generate auth token here
+        return res.status(200).json(user);
+
     } catch(err){
         res.status(500).json("error occur"+err); 
         return ;
